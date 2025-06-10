@@ -3,6 +3,7 @@ import { User } from "../models/user.model";
 import { AppError } from "../utils/AppError";
 import { isValidEmail } from "../utils/emailValidator";
 
+// register user
 export const registerUser = async (
   req: Request,
   res: Response,
@@ -42,5 +43,47 @@ export const registerUser = async (
     });
   } catch (error) {
     next(error);
+  }
+};
+
+// login user
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password)
+      throw new AppError("Please provide email and password", 400);
+
+    const user = await User.findOne({ email });
+    if (!user) throw new AppError("User not found", 401);
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) throw new AppError("Invalid email or password", 401);
+
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
+
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    return res.status(200).json({
+      status: true,
+      message: "Login successful",
+      accessToken,
+      refreshToken,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar || null,
+        role: user.role,
+      },
+    });
+  } catch (err) {
+    next(err);
   }
 };
