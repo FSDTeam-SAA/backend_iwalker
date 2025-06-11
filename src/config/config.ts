@@ -4,9 +4,10 @@ config({ path: ".env" });
 
 export const port: number = parseInt(process.env.PORT || "8000", 10);
 export const mongodbUrl: string = process.env.MONGODB_URI || "";
-export const jwtSecret: string = process.env.JWT_SECRET || "defaultsecret";
-// export const emailUser: string = process.env.EMAIL_USER || "";
-// export const emailPass: string = process.env.EMAIL_PASS || "";
+export const accessSecret: string =
+  process.env.JWT_SECRET || "vuGRnaC10rT9f7o9T2REzaZLmMrmgIKz";
+export const refreshSecret: string =
+  process.env.JWT_SECRET || "R2wcIHr5VUZxb0t0ACiTqzXlApAXrgS5";
 
 // export const cloudinaryCloudName: string =
 //   process.env.CLOUDINARY_CLOUD_NAME || "";

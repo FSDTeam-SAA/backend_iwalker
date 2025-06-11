@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { jwtSecret } from "../config/config";
+import { accessSecret, refreshSecret } from "../config/config";
 
 export interface IUser extends mongoose.Document {
   name: string;
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema<IUser>(
     role: { type: String, default: "user" },
     otp: { type: String },
     otpExpire: { type: Date },
-    refreshToken: { type: String }, // Store refresh token here
+    refreshToken: { type: String },
   },
   { timestamps: true }
 );
@@ -56,8 +56,8 @@ userSchema.methods.generateAccessToken = function () {
       email: this.email,
       role: this.role,
     },
-    process.env.JWT_ACCESS_SECRET || "access_secret",
-    { expiresIn: "15m" }
+    accessSecret || "vuGRnaC10rT9f7o9T2REzaZLmMrmgIKz",
+    { expiresIn: "3d" }
   );
 };
 
@@ -67,8 +67,8 @@ userSchema.methods.generateRefreshToken = function () {
     {
       id: this._id,
     },
-    process.env.JWT_REFRESH_SECRET || "refresh_secret",
-    { expiresIn: "7d" }
+    refreshSecret || "R2wcIHr5VUZxb0t0ACiTqzXlApAXrgS5",
+    { expiresIn: "90d" }
   );
 };
 
@@ -77,7 +77,7 @@ userSchema.statics.verifyAccessToken = async function (token: string) {
   try {
     const decoded: any = jwt.verify(
       token,
-      process.env.JWT_ACCESS_SECRET || "access_secret"
+      accessSecret || "vuGRnaC10rT9f7o9T2REzaZLmMrmgIKz"
     );
     return await this.findById(decoded.id);
   } catch (err) {
@@ -90,10 +90,10 @@ userSchema.statics.verifyRefreshToken = async function (token: string) {
   try {
     const decoded: any = jwt.verify(
       token,
-      process.env.JWT_REFRESH_SECRET || "refresh_secret"
+      refreshSecret || "R2wcIHr5VUZxb0t0ACiTqzXlApAXrgS5"
     );
     const user = await this.findById(decoded.id);
-    if (!user || user.refreshToken !== token) return null; 
+    if (!user || user.refreshToken !== token) return null;
     return user;
   } catch (err) {
     return null;

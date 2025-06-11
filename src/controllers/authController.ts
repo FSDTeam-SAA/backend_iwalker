@@ -87,3 +87,42 @@ export const login = async (
     next(err);
   }
 };
+
+// change password
+export const changePassword = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = req.user;
+
+    if (!user) throw new AppError("User not authenticated", 401);
+
+    const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+    if (!currentPassword || !newPassword || !confirmNewPassword)
+      throw new AppError("All fields are required", 400);
+
+    if (newPassword.length < 6)
+      throw new AppError("New password must be at least 6 characters", 400);
+
+    if (newPassword !== confirmNewPassword)
+      throw new AppError("New passwords do not match", 400);
+
+    const isMatch = await user.comparePassword(currentPassword);
+
+    if (!isMatch) throw new AppError("Current password is incorrect", 400);
+
+    user.password = newPassword;
+    await user.save();
+
+    return res.status(200).json({
+      status: true,
+      statusCode: 200,
+      message: "Password changed successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
