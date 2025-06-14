@@ -4,6 +4,34 @@ import { AppError } from "../utils/AppError";
 import { deleteLocalFile } from "../utils/deleteLocalFile";
 import { AuthenticatedRequest } from "../middlewares/isAuthenticated";
 
+// get user by ID
+export const getUserById = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = req.user;
+
+    if (!user) throw new AppError("User not found", 404);
+
+    return res.status(200).json({
+      status: true,
+      statusCode: 200,
+      message: "User fetched successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // change avatar
 export const uploadAvatar = async (
   req: AuthenticatedRequest,
