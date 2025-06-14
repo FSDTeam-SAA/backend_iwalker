@@ -4,7 +4,7 @@ import { User, IUser } from "../models/user.model";
 import { accessSecret } from "../config/config";
 import { AppError } from "../utils/AppError";
 
-interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest extends Request {
   user?: IUser;
 }
 

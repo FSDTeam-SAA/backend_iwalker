@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../models/user.model";
 import { AppError } from "../utils/AppError";
 import { isValidEmail } from "../utils/emailValidator";
+import { AuthenticatedRequest } from "../middlewares/isAuthenticated";
 
 // register user
 export const registerUser = async (
