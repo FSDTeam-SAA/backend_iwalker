@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import { errorHandler } from "./middlewares/errorHandler";
 import authRouter from "./routes/authRoutes";
+import userRouter from "./routes/userRoutes";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cors({ origin: "*" }));
 
 // all routes
 app.use("/api/v1", authRouter);
+app.use("/api/v1", userRouter);
 
 // custom error handler
 app.use(errorHandler);
