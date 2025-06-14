@@ -12,7 +12,7 @@ app.use(express.static("uploads"));
 app.use(cors({ origin: "*" }));
 
 // all routes
-app.use("/api/v1", authRouter);
+app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 
 // custom error handler

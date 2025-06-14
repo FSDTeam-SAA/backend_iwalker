@@ -11,15 +11,17 @@ export const sendEmail = async ({
   text: string;
 }) => {
   const transporter = nodemailer.createTransport({
-    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
-      user: mailUser,
+      user: process.env.SMTP_USER,
       pass: mailPass,
     },
   });
 
   await transporter.sendMail({
-    from: `"App Support" <${process.env.SMTP_USER}>`,
+    from: `"App Support" <kmsaifullah24@gmail.com>`,
     to,
     subject,
     text,

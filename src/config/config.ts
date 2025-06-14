@@ -15,7 +15,7 @@ export const cloudinaryApiKey: string = process.env.CLOUDINARY_API_KEY || "";
 export const cloudinaryApiSecret: string =
   process.env.CLOUDINARY_API_SECRET || "";
 
-export const mailUser: string = process.env.SMTP_USER || "";
-export const mailPass: string = process.env.SMTP_PASS || "";
+export const mailUser: string = process.env.SMTP_USER!;
+export const mailPass: string = process.env.SMTP_PASS!;
 
 export { config };
