@@ -13,7 +13,7 @@ app.use(cors({ origin: "*" }));
 
 // all routes
 app.use("/api/v1", authRouter);
-app.use("/api/v1", userRouter);
+app.use("/api/v1/users", userRouter);
 
 // custom error handler
 app.use(errorHandler);

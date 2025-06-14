@@ -8,9 +8,9 @@ export const deleteLocalFile = (filePath: string) => {
 
   fs.unlink(fullPath, (err) => {
     if (err) {
-      console.error(`Failed to delete file: ${fullPath}`, err);
+      // console.error(`Failed to delete file: ${fullPath}`, err);
     } else {
-      console.log(`Successfully deleted file: ${fullPath}`);
+      // console.log(`Successfully deleted file: ${fullPath}`);
     }
   });
 };
