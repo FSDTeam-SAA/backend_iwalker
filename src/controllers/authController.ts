@@ -255,7 +255,7 @@ export const resetPassword = async (
       throw new AppError("Passwords do not match", 400);
     }
 
-    user.password = newPassword; 
+    user.password = newPassword;
     await user.save();
 
     return res.status(200).json({
