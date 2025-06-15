@@ -16,7 +16,7 @@ export const isAuthenticated = async (
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer "))
-    throw new AppError("Authentication required", 401);
+    throw new AppError("Please login", 401);
 
   const token = authHeader.split(" ")[1];
 

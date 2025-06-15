@@ -167,37 +167,6 @@ export const forgotPassword = async (
 };
 
 // verify otp
-// export const verifyOtp = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     const { email, otp } = req.body;
-
-//     if (!email || !otp) throw new AppError("Email and OTP are required", 400);
-
-//     const user = await User.findOne({ email });
-
-//     if (
-//       !user ||
-//       !user.otp ||
-//       user.otp !== otp ||
-//       !user.otpExpire ||
-//       user.otpExpire < new Date()
-//     ) {
-//       throw new AppError("Invalid or expired OTP", 400);
-//     }
-
-//     return res.status(200).json({
-//       status: true,
-//       statusCode: 200,
-//       message: "OTP verified successfully",
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 export const verifyOtp = async (
   req: Request,
   res: Response,
