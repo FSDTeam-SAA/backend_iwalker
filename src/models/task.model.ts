@@ -9,6 +9,7 @@ export interface ITask extends Document {
   endTime?: string;
   location?: string;
   isFullDay: boolean;
+  notificationEnabled: boolean;
 }
 
 const taskSchema = new Schema<ITask>(
@@ -36,6 +37,10 @@ const taskSchema = new Schema<ITask>(
       type: String,
     },
     isFullDay: {
+      type: Boolean,
+      default: false,
+    },
+    notificationEnabled: {
       type: Boolean,
       default: false,
     },

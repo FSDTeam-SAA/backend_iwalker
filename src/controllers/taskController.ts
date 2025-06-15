@@ -162,3 +162,31 @@ export const deleteTask = async (
     next(error);
   }
 };
+
+// toggle notification
+export const toggleTaskNotification = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { taskId } = req.params;
+    const { enabled } = req.body;
+
+    const task = await Task.findOne({ _id: taskId, user: req.user?._id });
+
+    if (!task) throw new AppError("Task not found or unauthorized", 404);
+
+    task.notificationEnabled = enabled;
+    await task.save();
+
+    return res.status(200).json({
+      status: true,
+      statusCode: 200,
+      message: `Notification ${enabled ? "enabled" : "disabled"} successfully`,
+      data: task,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
